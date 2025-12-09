@@ -1,9 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { addToCart, clearCart, removeFromCart } from "@/store/cartSlice";
 import { RootState } from "@/store/store";
 import { Minus, Plus, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 interface CartDrawerProps {
   open: boolean;
@@ -48,14 +50,20 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
 
             <div className="flex items-center gap-2">
               <button
-                onClick={() => dispatch(removeFromCart(product.id))}
+                onClick={() => {
+                  dispatch(removeFromCart(product.id));
+                  toast.success(`${product.name} removed from cart!`);
+                }}
                 className="p-1 rounded hover:bg-gray-200"
               >
                 <Minus className="w-4 h-4 text-red-500" />
               </button>
               <span className="font-medium">{cartItems[product.id]}</span>
               <button
-                onClick={() => dispatch(addToCart(product.id))}
+                onClick={() => {
+                  dispatch(addToCart(product.id));
+                  toast.success(`${product.name} added to cart!`);
+                }}
                 className="p-1 rounded hover:bg-gray-200"
               >
                 <Plus className="w-4 h-4 text-green-500" />
@@ -70,18 +78,16 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
           <p className="text-right font-semibold text-gray-800 mb-2">
             Total: ₹{totalPrice.toFixed(2)}
           </p>
-          <button
+          <Button
             onClick={() => dispatch(clearCart())}
-            className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition mb-2"
+            className="w-full mb-2"
+            variant="secondary"
           >
             Clear Cart
-          </button>
-          <button
-            onClick={onClose}
-            className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
-          >
+          </Button>
+          <Button onClick={onClose} className="w-full" variant="destructive">
             Close
-          </button>
+          </Button>
         </div>
       )}
     </div>

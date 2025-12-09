@@ -1,10 +1,11 @@
 "use client";
 
 import ProductCard from "@/components/common/ProductCard";
-import ProductModal from "@/components/common/ProductModal";
 import ProductTable from "@/components/common/ProductTable";
+import ProductModal from "@/components/models/ProductModal";
+import { Button } from "@/components/ui/button";
 import { RootState } from "@/store/store";
-import { Plus } from "lucide-react";
+import { LayoutGrid, List, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -25,25 +26,24 @@ export default function Home() {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-semibold">All Products</h2>
         <div className="flex items-center gap-3">
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2"
-            onClick={() => setOpenModal(true)}
-          >
+          <Button onClick={() => setOpenModal(true)}>
             <Plus className="w-4 h-4" /> Add Product
-          </button>
+          </Button>
 
-          <button
-            className={`px-3 py-1 rounded ${view === "grid" ? "bg-gray-200" : ""}`}
+          <Button
             onClick={() => setView("grid")}
+            variant={`${view === "grid" ? "default" : "secondary"}`}
+            className="transition-all duration-300"
           >
-            Grid
-          </button>
-          <button
-            className={`px-3 py-1 rounded ${view === "list" ? "bg-gray-200" : ""}`}
+            <LayoutGrid />
+          </Button>
+          <Button
             onClick={() => setView("list")}
+            variant={`${view === "list" ? "default" : "secondary"}`}
+            className="transition-all duration-300"
           >
-            List
-          </button>
+            <List />
+          </Button>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default function Home() {
               No products yet. Add one!
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
